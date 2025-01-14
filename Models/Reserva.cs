@@ -7,15 +7,22 @@ namespace DesafioProjetoHospedagem.Models
         public int DiasReservados { get; set; }
         protected Hotel Hotel { get; set; }
 
-        public Reserva() { }
-
-        public Reserva(int diasReservados)
+        public Reserva(Hotel hotel) 
         {
+            Hotel = hotel;
+            Hospedes = new List<Pessoa>();  
+        }
+
+        public Reserva(Hotel hotel, int diasReservados)
+        {
+            Hotel = hotel;
+            Hospedes = new List<Pessoa>();
             DiasReservados = diasReservados;
         }
 
         public void CadastrarHospedes(List<Pessoa> hospedes)
         {
+
             // TODO: Verificar se a capacidade é maior ou igual ao número de hóspedes sendo recebido
             // *IMPLEMENTE AQUI*
             if (true)
@@ -56,6 +63,27 @@ namespace DesafioProjetoHospedagem.Models
             }
 
             return valor;
+        }
+
+        public static Reserva CriarReserva(Hotel hotel)
+        {
+            Console.Clear();
+            Console.WriteLine("=== Adicionar Nova Suíte ===");
+
+            Console.Write("Digite o tipo de suíte: ");
+            string tipoSuite = Console.ReadLine();
+
+            Console.Write("Digite a quantidade de camas: ");
+            int capacidade = int.Parse(Console.ReadLine());
+
+            Console.Write("Digite o valor da diária: ");
+            decimal valorDiaria = decimal.Parse(Console.ReadLine());
+
+            Reserva reserva = new Reserva(hotel);
+
+            Console.WriteLine("Suíte adicionada com sucesso!");
+
+            return reserva;
         }
     }
 }
