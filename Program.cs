@@ -23,3 +23,44 @@ reserva.CadastrarHospedes(hospedes);
 // Exibe a quantidade de hóspedes e o valor da diária
 Console.WriteLine($"Hóspedes: {reserva.ObterQuantidadeHospedes()}");
 Console.WriteLine($"Valor diária: {reserva.CalcularValorDiaria()}");
+
+
+bool exibirMenu = true;
+
+// Realiza o loop do menu
+while (exibirMenu)
+{
+    Console.Clear();
+    Console.WriteLine("Digite a sua opção:");
+    Console.WriteLine("1 - Cadastrar Suíte");
+    Console.WriteLine("2 - Reservar Suíte");
+    Console.WriteLine("3 - Cancelar Reserva");
+    Console.WriteLine("4 - Listar Suítes Disponíveis");
+    Console.WriteLine("5 - Encerrar");
+
+    switch (Console.ReadLine())
+    {
+        case "1":
+            es.AdicionarVeiculo();
+            break;
+
+        case "2":
+            es.RemoverVeiculo();
+            break;
+
+        case "3":
+            es.ListarVeiculos();
+            break;
+
+        case "4":
+            exibirMenu = false;
+            break;
+
+        default:
+            Console.WriteLine("Opção inválida");
+            break;
+    }
+
+    //Console.WriteLine("Pressione uma tecla para continuar");
+    //Console.ReadLine();
+}

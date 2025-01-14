@@ -5,6 +5,7 @@ namespace DesafioProjetoHospedagem.Models
         public List<Pessoa> Hospedes { get; set; }
         public Suite Suite { get; set; }
         public int DiasReservados { get; set; }
+        protected Hotel Hotel { get; set; }
 
         public Reserva() { }
 
