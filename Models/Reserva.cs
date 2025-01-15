@@ -54,7 +54,7 @@ namespace DesafioProjetoHospedagem.Models
         {
             // TODO: Retorna a quantidade de hóspedes (propriedade Hospedes)
             // *IMPLEMENTE AQUI*
-            return 0;
+            return Hospedes.Count();
         }
 
         public decimal CalcularValorDiaria()
@@ -62,16 +62,16 @@ namespace DesafioProjetoHospedagem.Models
             // TODO: Retorna o valor da diária
             // Cálculo: DiasReservados X Suite.ValorDiaria
             // *IMPLEMENTE AQUI*
-            decimal valor = 0;
+            //decimal valor = 0;
 
             // Regra: Caso os dias reservados forem maior ou igual a 10, conceder um desconto de 10%
             // *IMPLEMENTE AQUI*
-            if (true)
+            if (DiasReservados > 10)
             {
-                valor = 0;
+                return DiasReservados * Suite.ValorDiaria * 0.9m;
             }
 
-            return valor;
+            return DiasReservados * Suite.ValorDiaria;
         }
 
         public static Reserva CriarReserva(Hotel hotel, Suite suite)
@@ -100,8 +100,9 @@ namespace DesafioProjetoHospedagem.Models
 
             Reserva reserva = new Reserva(hotel, dias, _pessoas);
             suite.EReservada = true;
+            reserva.Suite = suite;
 
-            Console.WriteLine("Reserva feita com sucesso!");
+            Console.WriteLine($"Reserva de nº {reserva.Id} feita com sucesso!");
 
             return reserva;
         }

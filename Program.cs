@@ -35,8 +35,10 @@ while (exibirMenu)
     Console.WriteLine("1 - Cadastrar Suíte");
     Console.WriteLine("2 - Reservar Suíte");
     Console.WriteLine("3 - Cancelar Reserva");
-    Console.WriteLine("4 - Listar Suítes Disponíveis");
-    Console.WriteLine("5 - Encerrar");
+    Console.WriteLine("4 - Obter valor a pagar");
+    Console.WriteLine("5 - Listar Reservas ativas");
+    Console.WriteLine("6 - Listar Suítes Disponíveis");
+    Console.WriteLine("7 - Encerrar");
 
     switch (Console.ReadLine())
     {
@@ -50,14 +52,25 @@ while (exibirMenu)
 
         case "3":
             hotel.CancelarReserva();
+            Thread.Sleep(2000);
             break;
 
         case "4":
+            hotel.ObterValorTotalPagar();
+            Thread.Sleep(2000);
+            break;
+
+        case "5":
+            hotel.ShowReservas();
+            Thread.Sleep(3000);
+            break;
+
+        case "6":
             hotel.ShowSuitesDisponiveis();
             Thread.Sleep(3000);
             break;
 
-        case "5":
+        case "7":
             exibirMenu = false;
             break;
 

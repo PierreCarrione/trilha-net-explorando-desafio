@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DesafioProjetoHospedagem.Models
@@ -44,10 +45,25 @@ namespace DesafioProjetoHospedagem.Models
             return Reservas;
         }
 
-        //public void GetReserva(Reserva reserva)
-        //{
-        //    var _reserva = Reservas.Contains(reserva);
-        //}
+        public void ShowReservas()
+        {
+            Console.Clear();
+
+            if (Reservas.Count == 0)
+            {
+                Console.WriteLine("Não há reservas no momento.");
+            }
+            else
+            {
+                Console.WriteLine("-----------------------------------------");
+                for (int i = 0; i < Reservas.Count; i++)
+                {
+                    Console.WriteLine($"Código da reserva: {Reservas[i].Id}\nSuíte reservada: {Reservas[i].Suite.TipoSuite}\n" +
+                        $"Dias reservada: {Reservas[i].DiasReservados}\nQuantidade de hospedes: {Reservas[i].ObterQuantidadeHospedes()}");
+                    Console.WriteLine("-----------------------------------------");
+                }
+            }
+        }
 
         public void AddSuite()
         {
@@ -99,9 +115,60 @@ namespace DesafioProjetoHospedagem.Models
                 }
             }
         }
+        public void ObterValorTotalPagar()
+        {
+            string id;
+            Console.Clear();
+            Console.WriteLine("Entre com o código da reserva que deseja ver o valor.");
+            id = Console.ReadLine();
+
+            if (Regex.IsMatch(id, @"^\d$"))
+            {
+                Reserva reserva = Reservas.Where(r => r.Id == int.Parse(id)).FirstOrDefault();
+
+                if (reserva != null)
+                {
+                    Console.WriteLine($"Valor total a pagar: {reserva.CalcularValorDiaria()}");
+                }
+                else
+                {
+                    Console.WriteLine("Reserva não encontrada ou não existente. Por favor verifique o código e tente novamente.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("O código é composto somente de números.");
+            }
+        }
+
         public void CancelarReserva()
         {
-            //Metodo dessa classe
+            string id;
+            Console.Clear();
+            Console.WriteLine("Entre com o código da reserva que deseja cancelar.");
+            id = Console.ReadLine();
+
+            if (Regex.IsMatch(id, @"^\d$"))
+            {
+                Reserva reserva = Reservas.Where(r => r.Id == int.Parse(id)).FirstOrDefault();
+
+                if (reserva != null)
+                {
+                    var suite = reserva.Suite;
+                    var index = Suites.IndexOf(suite);
+                    Suites[index].EReservada = false;
+                    Reservas.Remove(reserva);
+                    Console.WriteLine("Reserva cancelada com sucesso!");
+                }
+                else
+                {
+                    Console.WriteLine("Reserva não encontrada ou não existente. Por favor verifique o código e tente novamente.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("O código é composto somente de números.");
+            }
         }
     }
 }
