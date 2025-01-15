@@ -53,7 +53,8 @@ while (exibirMenu)
             break;
 
         case "4":
-            hotel.GetSuitesDisponiveis();
+            hotel.ShowSuitesDisponiveis();
+            Thread.Sleep(3000);
             break;
 
         case "5":

@@ -30,7 +30,7 @@ namespace DesafioProjetoHospedagem.Models
             Console.Write("Digite o tipo de suíte: ");
             string tipoSuite = Console.ReadLine();
 
-            Console.Write("Digite a quantidade de camas: ");
+            Console.Write("Digite a capacidade da suíte: ");
             int capacidade = int.Parse(Console.ReadLine());
 
             Console.Write("Digite o valor da diária: ");

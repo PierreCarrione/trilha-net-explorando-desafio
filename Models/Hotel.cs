@@ -17,11 +17,26 @@ namespace DesafioProjetoHospedagem.Models
             Reservas = new List<Reserva>(); 
         }  
 
-        public List<Suite> GetSuitesDisponiveis()
+        public void ShowSuitesDisponiveis()
         {
             var suitesDisponiveis = Suites.Where(s => !s.EReservada).ToList();
 
-            return suitesDisponiveis;
+            Console.Clear();
+
+            if (suitesDisponiveis.Count == 0)
+            {
+                Console.WriteLine("Não há suites disponíveis no momento para reserva.");
+            }
+            else
+            {
+                Console.WriteLine("-----------------------------------------");
+                for (int i = 0; i < suitesDisponiveis.Count; i++)
+                {
+                    Console.WriteLine($"Tipo de suíte: {suitesDisponiveis[i].TipoSuite}\n" +
+                        $"Valor diária: {suitesDisponiveis[i].ValorDiaria}\nCapacidade: {suitesDisponiveis[i].Capacidade}");
+                    Console.WriteLine("-----------------------------------------");
+                }
+            }
         }
 
         public List<Reserva> GetReservas()
@@ -41,8 +56,48 @@ namespace DesafioProjetoHospedagem.Models
         }
         public void FazerReserva()
         {
-            Reserva reserva = Reserva.CriarReserva(this);
-            Reservas.Add(reserva);
+            var suitesDisponiveis = Suites.Where(s => !s.EReservada).ToList();
+            Console.Clear();
+
+            if (suitesDisponiveis.Count == 0)
+            {
+                Console.WriteLine("Não há suites disponíveis no momento para reserva.");
+                Thread.Sleep(2000);
+            }
+            else
+            {
+                int suite;
+                Console.WriteLine("Escolha o número de uma das suítes disponíveis.");
+
+                Console.WriteLine("-----------------------------------------");
+                for (int i = 0; i < suitesDisponiveis.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}º\nTipo de suíte: {suitesDisponiveis[i].TipoSuite}\n" +
+                        $"Valor diária: {suitesDisponiveis[i].ValorDiaria}\nCapacidade: {suitesDisponiveis[i].Capacidade}");
+                }
+                Console.WriteLine("-----------------------------------------");
+
+                suite = int.Parse(Console.ReadLine());
+
+                while (suite > suitesDisponiveis.Count)
+                {
+                    Console.WriteLine("Número de suíte não existente, por favor digite novamente um número correto.");
+                    suite = int.Parse(Console.ReadLine());
+                }
+
+                suite = suite - 1;
+                Reserva reserva = Reserva.CriarReserva(this, suitesDisponiveis[suite]);
+
+                if (reserva == null)
+                {
+                    Console.WriteLine("Número de pessoas excede o máximo comportado pela suíte.");
+                    Thread.Sleep(2000);
+                }
+                else
+                {
+                    Reservas.Add(reserva);
+                }
+            }
         }
         public void CancelarReserva()
         {

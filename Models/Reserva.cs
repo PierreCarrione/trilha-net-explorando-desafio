@@ -2,6 +2,8 @@ namespace DesafioProjetoHospedagem.Models
 {
     public class Reserva
     {
+        private static int _ultimoId = 0;
+        public int Id { get; set; }
         public List<Pessoa> Hospedes { get; set; }
         public Suite Suite { get; set; }
         public int DiasReservados { get; set; }
@@ -9,15 +11,22 @@ namespace DesafioProjetoHospedagem.Models
 
         public Reserva(Hotel hotel) 
         {
+            Id = GerarNovoId();
             Hotel = hotel;
             Hospedes = new List<Pessoa>();  
         }
 
-        public Reserva(Hotel hotel, int diasReservados)
+        public Reserva(Hotel hotel, int diasReservados, List<Pessoa> hospedes)
         {
+            Id = GerarNovoId();
             Hotel = hotel;
-            Hospedes = new List<Pessoa>();
+            Hospedes = hospedes;
             DiasReservados = diasReservados;
+        }
+
+        private static int GerarNovoId()
+        {
+            return ++_ultimoId;
         }
 
         public void CadastrarHospedes(List<Pessoa> hospedes)
@@ -65,23 +74,34 @@ namespace DesafioProjetoHospedagem.Models
             return valor;
         }
 
-        public static Reserva CriarReserva(Hotel hotel)
+        public static Reserva CriarReserva(Hotel hotel, Suite suite)
         {
             Console.Clear();
-            Console.WriteLine("=== Adicionar Nova Suíte ===");
+            Console.WriteLine("=== Adicionar Nova Reserva ===");
 
-            Console.Write("Digite o tipo de suíte: ");
-            string tipoSuite = Console.ReadLine();
+            Console.Write("Digite a quantidade de dias para reserva: ");
+            int dias = int.Parse(Console.ReadLine());
 
-            Console.Write("Digite a quantidade de camas: ");
-            int capacidade = int.Parse(Console.ReadLine());
+            Console.Write("Digite a quantidade de pessoas: ");
+            int qtdPessoas = int.Parse(Console.ReadLine());
 
-            Console.Write("Digite o valor da diária: ");
-            decimal valorDiaria = decimal.Parse(Console.ReadLine());
+            if(qtdPessoas > suite.Capacidade)
+            {
+                return null;
+            }
 
-            Reserva reserva = new Reserva(hotel);
+            List<Pessoa> _pessoas = new List<Pessoa>();
 
-            Console.WriteLine("Suíte adicionada com sucesso!");
+            for (int i = 0; i < qtdPessoas; i++)
+            {
+                Console.Write("Entre com o nome de cada pessoa: ");
+                _pessoas.Add(new Pessoa(Console.ReadLine()));
+            }
+
+            Reserva reserva = new Reserva(hotel, dias, _pessoas);
+            suite.EReservada = true;
+
+            Console.WriteLine("Reserva feita com sucesso!");
 
             return reserva;
         }
